@@ -1,7 +1,7 @@
 ﻿using MVC_WebApp.Models;
 using Newtonsoft.Json;
 
-namespace MVC_WebApp.Data
+namespace MVC_WebAPP_JokeSite.API
 {
     public class API
     {

@@ -2,12 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVC_WebApp;
-using MVC_WebApp.Data;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Client;
 using MVC_WebAPP_JokeSite.Data;
 using MVC_WebAPP_JokeSite.Models;
+using MVC_WebAPP_JokeSite.API;
+using Microsoft.AspNetCore.Identity;
+using MVC_WebAPP_JokeSite.Areas.Identity.Data;
+using NuGet.Protocol;
 
 namespace MVC_WebApp.Controllers
 {
@@ -23,7 +26,7 @@ namespace MVC_WebApp.Controllers
             _context = Context;
         }
 
-        public IActionResult Index(int numjokes)
+        public async Task<IActionResult> IndexAsync(int numjokes)
         {
             string currentUser = "";
             if (this.User.Identity.Name == null)
@@ -31,7 +34,17 @@ namespace MVC_WebApp.Controllers
                 currentUser = "Guest";
             }
             else
-            { currentUser = this.User.Identity.Name.ToString(); }
+            {  
+                currentUser = User.Identity.Name;
+                var CurrentUserQuery = from u in _context.Users
+                            where u.UserName == currentUser
+                            select u;
+                var user = CurrentUserQuery.FirstOrDefault();
+                 currentUser = user.Email;
+
+                
+                
+            }
             ViewBag.User = currentUser;
             RootModel ReturnRoot = new RootModel();
             ViewData["myString"] = "Welcome to my ASP.NET MVC Joke Site";
