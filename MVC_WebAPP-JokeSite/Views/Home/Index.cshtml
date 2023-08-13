@@ -1,0 +1,64 @@
+﻿@using MVC_WebApp.Models;
+@model MVC_WebApp.Models.RootModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <div id="API-Results">
+        <h1>@ViewData["myString"]</h1>
+        <form asp-action="Index" id="numJokesForm">
+            <div class="form-group">
+                <label class="control-label">Number of jokes (2-10)</label>
+                <select name="numjokes" id="numjokes" class="form-control">
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
+                    <option value=8>8</option>
+                    <option value=9>9</option>
+                    <option value=10>10</option>
+                </select>
+                <br />
+                <input type="submit" value="Submit" id="jokebutton" class="btn btn-primary" />
+            </div>
+        </form>
+
+        @{
+
+            int jokeCount = 0;
+            <p>Welcome @ViewBag.user</p>
+            foreach (JokeModel joke in Model)
+            {
+                jokeCount++;
+                <h5 id="jokenumber">Joke @jokeCount</h5>
+                <p>@joke.type</p>
+
+
+                if (joke.type == "single")
+                {
+
+
+                    <p class="jokes">@joke.joke</p>
+
+
+                }
+                else
+                {
+
+
+                    <p class="jokes">@joke.setup</p>
+                    <p class="jokes">@joke.delivery</p>
+
+                }
+            }
+
+        }
+    </div>
+</div>
+
+
+

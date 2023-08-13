@@ -1,0 +1,46 @@
+﻿@using MVC_WebApp.Models;
+@model MVC_WebApp.Models.RootModel
+@{
+    ViewData["Title"] = "outputs results";
+}
+<div class="text-center">
+    <h1>Every joke currently stored in the database</h1>
+    <form asp-action="resetOutputDB"> <button type="submit" class="btn btn-danger" >Reset</button>comment out [Authorize] in controller action to enable reset without login</form>
+    @{
+        <p>User defined jokes displayed first, followed by API jokes</p>
+        int jokeCount = 0;
+        if (Model==null)
+        {
+            <p>No jokes found</p>
+        }
+        else{
+            foreach(JokeModel joke in Model)
+            {
+                jokeCount++;
+                <p>Joke @jokeCount</p>
+                if (joke.UserJoke == true)
+
+                {
+                    <h6>User supplied Joke</h6>
+                }
+                if (joke.type == "single")
+            {
+                <p>@joke.joke</p>
+            }
+            else
+            {
+                <p>@joke.setup</p>
+                <p>@joke.delivery</p>
+            }
+            <br/>
+
+        }
+        }
+    }
+</div>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}

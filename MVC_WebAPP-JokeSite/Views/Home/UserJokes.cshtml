@@ -1,0 +1,107 @@
+﻿@using MVC_WebApp.Models;
+
+@model MVC_WebApp.Models.JokeModel
+
+@{
+    ViewData["Title"] = "UserJokes";
+    JokeModel UserJoke = new JokeModel();
+    if (Model != null)
+    {
+        UserJoke = Model;
+    }
+    else
+    {
+        UserJoke.type = "single";
+        UserJoke.setup = "";
+        UserJoke.joke = "No joke";
+        UserJoke.delivery = "";
+    }
+}
+
+
+<h1>UserJokes</h1>
+
+<h4>JokeModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="postUserJokes">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="type" class="control-label"></label>
+                <select asp-for="type" id="selectjoketype" class="text-danger">
+                    <option value="single">single</option>
+                    <option value="two-part">two-part</option>
+                    </select>
+                <span asp-validation-for="type" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="oneliner">
+                <label asp-for="joke" class="control-label"></label>
+                <input asp-for="joke" class="form-control" id="onelinerinput" />
+                <span asp-validation-for="joke" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="twopartsetup">
+                <label asp-for="setup" class="control-label"></label>
+                <input asp-for="setup" class="form-control" readonly id="twopartsetupinput"/>
+                <span asp-validation-for="setup" class="text-danger" ></span>
+            </div>
+            <div class="form-group" id="twopartdelivery">
+                <label asp-for="delivery" class="control-label"></label>
+                <input asp-for="delivery" class="form-control" readonly id="twopartdeliveryinput" />
+                <span asp-validation-for="delivery" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div id="display_user_joke">
+    <h1>Joke created by user</h1>
+    @{
+        if (Model != null)
+        {
+            <p>This joke is now included in database. <a href="/home/outputdb">View all jokes</a></p>
+
+            
+        }
+    }
+    <p>@UserJoke.setup</p>
+    <p>@UserJoke.joke</p>
+    <p>@UserJoke.delivery</p>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+   
+       document.getElementById("selectjoketype").addEventListener("change", function(){
+           if(this.value == "single")
+           {
+               document.getElementById("onelinerinput").readOnly = false;
+               document.getElementById("oneliner").style.visibility = "visible";
+               document.getElementById("twopartsetupinput").readOnly = true;
+               document.getElementById("twopartsetup").style.visibility = "hidden";
+               document.getElementById("twopartdeliveryinput").readOnly = true;
+               document.getElementById("twopartdelivery").style.visibility = "hidden";
+               document.getElementById("twopartsetupinput").value = "";
+               document.getElementById("twopartdeliveryinput").value = "";
+           }
+           else
+           {
+               document.getElementById("onelinerinput").readOnly = true;
+               document.getElementById("oneliner").style.visibility = "hidden";
+               document.getElementById("twopartsetupinput").readOnly = false;
+               document.getElementById("twopartsetup").style.visibility = "visible";
+               document.getElementById("twopartdeliveryinput").readOnly = false;
+               document.getElementById("twopartdelivery").style.visibility = "visible";
+               document.getElementById("onelinerinput").value = "";
+           }
+       });
+   
+</script>
