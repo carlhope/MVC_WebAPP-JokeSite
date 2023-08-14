@@ -13,6 +13,7 @@ using MVC_WebAPP_JokeSite.Areas.Identity.Data;
 
 namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
 {
+    [Authorize]
     public class LogoutModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;

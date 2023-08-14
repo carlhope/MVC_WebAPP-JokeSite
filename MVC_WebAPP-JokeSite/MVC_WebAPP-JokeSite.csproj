@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>MVC_WebAPP_JokeSite</RootNamespace>
+    <UserSecretsId>bce6ea4f-0c40-4640-9f20-15a0e9a49104</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -14,6 +14,7 @@ using MVC_WebAPP_JokeSite.Areas.Identity.Data;
 
 namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
 {
+    [Authorize]
     public class ConfirmEmailChangeModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;

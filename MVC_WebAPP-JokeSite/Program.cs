@@ -4,6 +4,7 @@ using MVC_WebAPP_JokeSite.Data;
 using MVC_WebAPP_JokeSite.Areas.Identity.Data;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("MVC_WebAPP_JokeSiteContextConnection") ?? throw new InvalidOperationException("Connection string 'MVC_WebAPP_JokeSiteContextConnection' not found.");
@@ -39,6 +40,8 @@ options.Password.RequireDigit = true;
     options.User.RequireUniqueEmail = false;
 });
 
+
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
     // Cookie settings
@@ -49,13 +52,27 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
     options.SlidingExpiration = true;
 });
+//require authentication for all pages except where [AllowAnonymous] is used
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+});
 
-
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AllowAnonymousToAreaFolder("Identity", "/Account");
+    options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+}
+);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+
+
+    // Configure the HTTP request pipeline.
+    if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
