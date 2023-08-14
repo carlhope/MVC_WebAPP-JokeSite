@@ -18,7 +18,6 @@ using MVC_WebAPP_JokeSite.Areas.Identity.Data;
 
 namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
     public class LoginModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;

@@ -31,16 +31,17 @@ namespace MVC_WebApp.Controllers
         public async Task<IActionResult> IndexAsync(int numjokes)
         {
             string currentUser = "";
-           /* if (this.User.Identity.Name == null)
+            if (this.User.Identity.Name == null)
             {
                 currentUser = "Guest";
             }
             else
             {  
+                
                 ApplicationUser FindCurrentUser =await  _context.Users.FirstOrDefaultAsync(u => u.UserName == this.User.Identity.Name);
                 string UserFName = FindCurrentUser.FirstName!=null?FindCurrentUser.FirstName:"no first name";
                 currentUser = UserFName;   
-            }*/
+            }
             ViewBag.User = currentUser;
             RootModel ReturnRoot = new RootModel();
             ViewData["myString"] = "Welcome to my ASP.NET MVC Joke Site";
