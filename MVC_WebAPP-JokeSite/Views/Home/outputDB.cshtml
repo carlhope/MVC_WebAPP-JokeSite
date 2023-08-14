@@ -5,7 +5,7 @@
 }
 <div class="text-center">
     <h1>Every joke currently stored in the database</h1>
-    <form asp-action="resetOutputDB"> <button type="submit" class="btn btn-danger" >Reset</button>comment out [Authorize] in controller action to enable reset without login</form>
+    <form asp-action="resetOutputDB"> <button type="submit" class="btn btn-danger" >Reset</button></form>
     @{
         <p>User defined jokes displayed first, followed by API jokes</p>
         int jokeCount = 0;

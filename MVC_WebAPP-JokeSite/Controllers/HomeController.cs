@@ -38,8 +38,8 @@ namespace MVC_WebApp.Controllers
             else
             {  
                 ApplicationUser FindCurrentUser =await  _context.Users.FirstOrDefaultAsync(u => u.UserName == this.User.Identity.Name);
-                string UserID = FindCurrentUser.Id;
-                currentUser = UserID;   
+                string UserFName = FindCurrentUser.FirstName;
+                currentUser = UserFName;   
             }
             ViewBag.User = currentUser;
             RootModel ReturnRoot = new RootModel();
