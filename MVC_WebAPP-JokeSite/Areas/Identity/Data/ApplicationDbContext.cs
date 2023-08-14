@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MVC_WebAPP_JokeSite.Areas.Identity.Data;
 
+
 namespace MVC_WebAPP_JokeSite.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

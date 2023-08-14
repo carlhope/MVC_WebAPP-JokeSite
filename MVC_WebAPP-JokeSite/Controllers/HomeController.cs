@@ -11,6 +11,7 @@ using MVC_WebAPP_JokeSite.API;
 using Microsoft.AspNetCore.Identity;
 using MVC_WebAPP_JokeSite.Areas.Identity.Data;
 using NuGet.Protocol;
+using Microsoft.AspNetCore.Hosting.Builder;
 
 namespace MVC_WebApp.Controllers
 {
@@ -19,6 +20,7 @@ namespace MVC_WebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _UserManager;
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext Context)
         {
@@ -35,15 +37,9 @@ namespace MVC_WebApp.Controllers
             }
             else
             {  
-                currentUser = User.Identity.Name;
-                var CurrentUserQuery = from u in _context.Users
-                            where u.UserName == currentUser
-                            select u;
-                var user = CurrentUserQuery.FirstOrDefault();
-                 currentUser = user.Email;
-
-                
-                
+                ApplicationUser FindCurrentUser =await  _context.Users.FirstOrDefaultAsync(u => u.UserName == this.User.Identity.Name);
+                string UserID = FindCurrentUser.Id;
+                currentUser = UserID;   
             }
             ViewBag.User = currentUser;
             RootModel ReturnRoot = new RootModel();

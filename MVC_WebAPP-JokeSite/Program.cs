@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MVC_WebAPP_JokeSite.Data;
 using MVC_WebAPP_JokeSite.Areas.Identity.Data;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("MVC_WebAPP_JokeSiteContextConnection") ?? throw new InvalidOperationException("Connection string 'MVC_WebAPP_JokeSiteContextConnection' not found.");
@@ -10,17 +11,17 @@ var connectionString = builder.Configuration.GetConnectionString("MVC_WebAPP_Jok
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.Configure<IdentityOptions>(options => options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier);
+builder.Services.Configure<IdentityOptions>(options => 
 
-builder.Services.Configure<IdentityOptions>(options =>
 {
-    // Password settings.
-    options.Password.RequireDigit = true;
+// Password settings.
+options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequireUppercase = true;
@@ -50,9 +51,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 
-var app = builder.Build();
 
-//var _UserManager = app.Services.GetRequiredService<UserManager<ApplicationUser>>();
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
