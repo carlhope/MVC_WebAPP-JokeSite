@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Hosting.Builder;
 
 namespace MVC_WebApp.Controllers
 {
-    //[Authorize]
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

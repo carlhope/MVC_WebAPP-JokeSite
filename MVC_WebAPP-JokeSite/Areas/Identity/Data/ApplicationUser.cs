@@ -11,10 +11,10 @@ public class ApplicationUser : IdentityUser
 {
     //add string for user's first name
     [PersonalData]
-    public string FirstName { get; set; }
+    public string? FirstName { get; set; }
     //add string for user's last name
     [PersonalData]
-    public string LastName { get; set; }
+    public string? LastName { get; set; }
     
 }
 
