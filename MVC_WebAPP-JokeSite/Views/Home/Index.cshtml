@@ -7,7 +7,7 @@
 
 <div class="text-center">
     <div id="API-Results">
-        <h1>@ViewData["myString"]</h1>
+        <h1>@ViewData["myString"] @ViewBag.user</h1>
         <form asp-action="Index" id="numJokesForm">
             <div class="form-group">
                 <label class="control-label">Number of jokes (2-10)</label>

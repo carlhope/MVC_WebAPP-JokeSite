@@ -30,18 +30,14 @@ namespace MVC_WebApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> IndexAsync(int numjokes)
         {
-            string currentUser = "";
-            if (this.User.Identity.Name == null)
-            {
-                currentUser = "Guest";
-            }
-            else
+            string currentUserFName = "";
+            if (this.User.Identity.Name != null)
             {  
-                ApplicationUser FindCurrentUser =await  _context.Users.FirstOrDefaultAsync(u => u.UserName == this.User.Identity.Name);
-                string UserFName = FindCurrentUser.FirstName;
-                currentUser = UserFName;   
+                ApplicationUser CurrentUser =await  _context.Users.FirstOrDefaultAsync(u => u.UserName == this.User.Identity.Name);
+                currentUserFName = CurrentUser.FirstName;
+                
             }
-            ViewBag.User = currentUser;
+            ViewBag.User = currentUserFName;
             RootModel ReturnRoot = new RootModel();
             ViewData["myString"] = "Welcome to my ASP.NET MVC Joke Site";
             if (numjokes < 2)
