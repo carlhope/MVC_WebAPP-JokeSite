@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using Azure.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using MVC_WebAPP_JokeSite.Areas.Identity.Data;
+using MVC_WebAPP_JokeSite.Data;
 
 namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
 {
@@ -99,6 +101,23 @@ namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+
+            ////////////////// Custom User Data //////////////////
+            [StringLength(20, ErrorMessage ="max 20 characters long")]
+            [PersonalData]
+            [Required]
+            [Display(Name ="First Name")]
+
+            public string? FirstName { get; set; }
+
+            [StringLength(20, ErrorMessage = "max 20 characters long")]
+            [PersonalData]
+            [Required]
+            [Display(Name = "First Name")]
+            public string? LastName { get; set; }
+
+            ////////////////// Custom User Data //////////////////
         }
 
 
@@ -114,8 +133,16 @@ namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
-
+                //var user = CreateUser(); // replaced with below
+                ////////////////// Custom User Data //////////////////
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName
+                };
+                ////////////////// Custom User Data //////////////////
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
