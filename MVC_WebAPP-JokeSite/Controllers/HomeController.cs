@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Hosting.Builder;
 
 namespace MVC_WebApp.Controllers
 {
-    [AllowAnonymous]
+    //[AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -27,7 +27,7 @@ namespace MVC_WebApp.Controllers
             _logger = logger;
             _context = Context;
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> IndexAsync(int numjokes)
         {
             string currentUser = "";
@@ -63,14 +63,14 @@ namespace MVC_WebApp.Controllers
 
             return View(ReturnRoot);
         }
-
+        [AllowAnonymous]
         public IActionResult UserJokes(JokeModel joke)
         {
 
             return View();
         }
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public IActionResult postUserJokes(JokeModel newJoke)
         {
             newJoke.UserJoke = true;
@@ -84,6 +84,7 @@ namespace MVC_WebApp.Controllers
 
         }
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult OutputDB()
         {
             RootModel root = new RootModel();
@@ -105,7 +106,7 @@ namespace MVC_WebApp.Controllers
 
         }
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public IActionResult resetOutputDB()
         {
             RootModel Root = new RootModel();
@@ -118,7 +119,7 @@ namespace MVC_WebApp.Controllers
 
             return View("OutputDB");
         }
-
+        [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();
