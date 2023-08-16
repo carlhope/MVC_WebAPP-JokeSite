@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using MVC_WebAPP_JokeSite.Areas.Identity.Data;
 using NuGet.Protocol;
 using Microsoft.AspNetCore.Hosting.Builder;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace MVC_WebApp.Controllers
 {
@@ -20,7 +21,8 @@ namespace MVC_WebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _UserManager;
+        
+        
        
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext Context)
@@ -35,8 +37,12 @@ namespace MVC_WebApp.Controllers
             string currentUserFName = "";
             if (this.User.Identity.Name != null)
             {
-               ApplicationUser CurrentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
-                currentUserFName = CurrentUser.FirstName;
+                string user = User.Identity.Name;
+                var userstore = new UserStore<ApplicationUser>(_context);
+                var usermanager = new UserManager<ApplicationUser>(userstore, null, null, null, null, null, null, null, null);
+                var UserName = await usermanager.FindByNameAsync(user);
+              // ApplicationUser CurrentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+                currentUserFName = UserName.FirstName;
                 
             }
             ViewBag.User = currentUserFName;

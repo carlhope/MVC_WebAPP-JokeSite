@@ -15,6 +15,6 @@ public class ApplicationUser : IdentityUser
     //add string for user's last name
     [PersonalData]
     public string? LastName { get; set; }
-    
+
 }
 

@@ -11,13 +11,15 @@ var connectionString = builder.Configuration.GetConnectionString("MVC_WebAPP_Jok
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
+
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
-    //options.ClaimsIdentity.UserIdClaimType = "UserID";
     })
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -25,6 +27,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.Configure<IdentityOptions>(options => 
 
 {
+    options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
 // Password settings.
 options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;

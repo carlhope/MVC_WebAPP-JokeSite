@@ -133,16 +133,10 @@ namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                //var user = CreateUser(); // replaced with below
-                ////////////////// Custom User Data //////////////////
-                var user = new ApplicationUser
-                {
-                    UserName = Input.Email,
-                    Email = Input.Email,
-                    FirstName = Input.FirstName,
-                    LastName = Input.LastName
-                };
-                ////////////////// Custom User Data //////////////////
+                var user = CreateUser();
+                user.FirstName = Input.FirstName;//custom user data
+                user.LastName = Input.LastName;//custom user data
+               
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -151,7 +145,7 @@ namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    var userId = await _userManager.GetUserIdAsync(user);
+                    var userId = await _userManager.FindByIdAsync(user.Id.ToString());
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
