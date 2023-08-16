@@ -37,3 +37,9 @@ body {
     width: 200px;
     margin: auto;
 }
+#twopartsetup{
+    visibility: hidden;
+}
+#twopartdelivery{
+    visibility: hidden;
+}
