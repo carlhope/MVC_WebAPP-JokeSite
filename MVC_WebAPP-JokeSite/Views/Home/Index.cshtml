@@ -9,7 +9,7 @@
     <div id="API-Results">
         <h1>@ViewData["myString"] @ViewBag.user</h1>
         <form asp-action="Index" id="numJokesForm">
-            <div class="form-group">
+            <div class="form-group" id="NumJokesSelect">
                 <label class="control-label">Number of jokes (2-10)</label>
                 <select name="numjokes" id="numjokes" class="form-control">
                     <option value=2>2</option>
@@ -30,7 +30,6 @@
         @{
 
             int jokeCount = 0;
-            <p>Welcome @ViewBag.user</p>
             foreach (JokeModel joke in Model)
             {
                 jokeCount++;
