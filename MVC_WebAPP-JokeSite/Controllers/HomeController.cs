@@ -21,19 +21,21 @@ namespace MVC_WebApp.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _UserManager;
+       
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext Context)
         {
             _logger = logger;
             _context = Context;
+            
         }
         [AllowAnonymous]
         public async Task<IActionResult> IndexAsync(int numjokes)
         {
             string currentUserFName = "";
             if (this.User.Identity.Name != null)
-            {  
-                ApplicationUser CurrentUser =await  _context.Users.FirstOrDefaultAsync(u => u.UserName == this.User.Identity.Name);
+            {
+               ApplicationUser CurrentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
                 currentUserFName = CurrentUser.FirstName;
                 
             }
