@@ -13,6 +13,8 @@ using MVC_WebAPP_JokeSite.Areas.Identity.Data;
 using NuGet.Protocol;
 using Microsoft.AspNetCore.Hosting.Builder;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using SQLitePCL;
+using System.Security.Claims;
 
 namespace MVC_WebApp.Controllers
 {
@@ -22,9 +24,6 @@ namespace MVC_WebApp.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
         
-        
-       
-
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext Context)
         {
             _logger = logger;
@@ -37,13 +36,14 @@ namespace MVC_WebApp.Controllers
             string currentUserFName = "";
             if (this.User.Identity.Name != null)
             {
-                string user = User.Identity.Name;
                 var userstore = new UserStore<ApplicationUser>(_context);
                 var usermanager = new UserManager<ApplicationUser>(userstore, null, null, null, null, null, null, null, null);
-                var UserName = await usermanager.FindByNameAsync(user);
-              // ApplicationUser CurrentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
-                currentUserFName = UserName.FirstName;
-                
+                ApplicationUser CurrentUser = await usermanager.FindByNameAsync(User.Identity.Name);
+                currentUserFName = CurrentUser.FirstName;
+                await usermanager.SetPhoneNumberAsync(CurrentUser, "575-855-5355");
+                await usermanager.UpdateAsync(CurrentUser);
+                usermanager.Dispose();
+               userstore.Dispose();
             }
             ViewBag.User = currentUserFName;
             RootModel ReturnRoot = new RootModel();
