@@ -43,7 +43,7 @@ namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{userId}'.");
+                return NotFound($"Unable to load _currentUser with ID '{userId}'.");
             }
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
@@ -54,12 +54,12 @@ namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            // In our UI email and user name are one and the same, so when we update the email
-            // we need to update the user name.
+            // In our UI email and _currentUser name are one and the same, so when we update the email
+            // we need to update the _currentUser name.
             var setUserNameResult = await _userManager.SetUserNameAsync(user, email);
             if (!setUserNameResult.Succeeded)
             {
-                StatusMessage = "Error changing user name.";
+                StatusMessage = "Error changing _currentUser name.";
                 return Page();
             }
 
