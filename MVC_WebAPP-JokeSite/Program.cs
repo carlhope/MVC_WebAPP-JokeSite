@@ -27,7 +27,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.Configure<IdentityOptions>(options => 
 
 {
-    options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
 // Password settings.
 options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
@@ -59,7 +58,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
     options.SlidingExpiration = true;
 });
-//require authentication for all pages except where [AllowAnonymous] is used
+//require authentication for all pages except where specified otherwise
 builder.Services.AddAuthorization(options =>
 {
     options.FallbackPolicy = new AuthorizationPolicyBuilder()
