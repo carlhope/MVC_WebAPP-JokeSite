@@ -25,7 +25,7 @@ namespace MVC_WebApp.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserStore<ApplicationUser> _userStore;
         private readonly UserManager<ApplicationUser> _userManager;
-        
+        private readonly ApplicationUser _currentUser;
 
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext Context)
