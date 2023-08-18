@@ -6,12 +6,12 @@
 }
 
 <div class="text-center">
-    <div id="API-Results">
+    <div id="API-Results" class="p-3">
         <h1>@ViewData["myString"] @ViewBag.user</h1>
         <form asp-action="Index" id="numJokesForm">
             <div class="form-group" id="NumJokesSelect">
                 <label class="control-label">Number of jokes (2-10)</label>
-                <select name="numjokes" id="numjokes" class="form-control">
+                <select name="numjokes" id="numjokes" class="form-control w-25">
                     <option value=2>2</option>
                     <option value=3>3</option>
                     <option value=4>4</option>

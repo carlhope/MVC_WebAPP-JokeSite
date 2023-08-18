@@ -26,16 +26,12 @@ body {
 #API-Results {
   margin-top: 20px;
   background-color: slategray;
-  border-radius: 15px;
   border-color: crimson;
   border-style:dotted;
-  padding: 10px;
   color: black;
 }
-
-#NumJokesSelect{
-    width: 200px;
-    margin: auto;
+#numjokes{
+margin: auto;
 }
 #twopartsetup{
     visibility: hidden;
