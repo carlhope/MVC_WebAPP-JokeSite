@@ -61,11 +61,11 @@ namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
-            // Ensure the user has gone through the username & password screen first
+            // Ensure the _currentUser has gone through the username & password screen first
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+                throw new InvalidOperationException($"Unable to load two-factor authentication _currentUser.");
             }
 
             ReturnUrl = returnUrl;
@@ -83,7 +83,7 @@ namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+                throw new InvalidOperationException($"Unable to load two-factor authentication _currentUser.");
             }
 
             var recoveryCode = Input.RecoveryCode.Replace(" ", string.Empty);
@@ -104,7 +104,7 @@ namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
             }
             else
             {
-                _logger.LogWarning("Invalid recovery code entered for user with ID '{UserId}' ", user.Id);
+                _logger.LogWarning("Invalid recovery code entered for _currentUser with ID '{UserId}' ", user.Id);
                 ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
                 return Page();
             }

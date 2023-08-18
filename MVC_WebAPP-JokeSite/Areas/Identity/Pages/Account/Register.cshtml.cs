@@ -134,8 +134,8 @@ namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-                user.FirstName = Input.FirstName;//custom user data
-                user.LastName = Input.LastName;//custom user data
+                user.FirstName = Input.FirstName;//custom _currentUser data
+                user.LastName = Input.LastName;//custom _currentUser data
                
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -195,7 +195,7 @@ namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
         {
             if (!_userManager.SupportsUserEmail)
             {
-                throw new NotSupportedException("The default UI requires a user store with email support.");
+                throw new NotSupportedException("The default UI requires a _currentUser store with email support.");
             }
             return (IUserEmailStore<ApplicationUser>)_userStore;
         }

@@ -23,27 +23,32 @@ namespace MVC_WebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
-        
+        private readonly UserStore<ApplicationUser> _userStore;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationUser _currentUser;
+
+
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext Context)
         {
             _logger = logger;
             _context = Context;
+            _userStore = new UserStore<ApplicationUser>(_context);
+            _userManager = new UserManager<ApplicationUser>(_userStore, null, null, null, null, null, null, null, null);
+           
+
             
         }
         [AllowAnonymous]
         public async Task<IActionResult> IndexAsync(int numjokes)
         {
             string currentUserFName = "";
-            if (this.User.Identity.Name != null)
+            if (this.User.Identity.Name!= null)
             {
-                var userstore = new UserStore<ApplicationUser>(_context);
-                var usermanager = new UserManager<ApplicationUser>(userstore, null, null, null, null, null, null, null, null);
-                ApplicationUser CurrentUser = await usermanager.FindByNameAsync(User.Identity.Name);
+                ApplicationUser CurrentUser = await _userManager.GetUserAsync(User);
                 currentUserFName = CurrentUser.FirstName;
-                await usermanager.SetPhoneNumberAsync(CurrentUser, "575-855-5355");
-                await usermanager.UpdateAsync(CurrentUser);
-                usermanager.Dispose();
-               userstore.Dispose();
+                //await _userManager.SetPhoneNumberAsync(CurrentUser, "575-855-5355");
+                //await _userManager.UpdateAsync(CurrentUser);
+               
             }
             ViewBag.User = currentUserFName;
             RootModel ReturnRoot = new RootModel();

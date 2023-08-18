@@ -36,7 +36,7 @@ namespace MVC_WebAPP_JokeSite.Areas.Identity.Pages.Account
             else
             {
                 // This needs to be a redirect so that the browser performs a new
-                // request and the identity for the user gets updated.
+                // request and the identity for the _currentUser gets updated.
                 return RedirectToPage();
             }
         }
