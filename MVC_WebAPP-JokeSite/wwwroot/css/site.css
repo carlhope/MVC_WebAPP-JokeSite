@@ -39,3 +39,9 @@ header{
   background-color: aliceblue;
  
 }
+#intro{
+    text-align:left;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 60px;
+}

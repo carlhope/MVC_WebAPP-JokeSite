@@ -6,12 +6,17 @@
 }
 
 <div class="text-center">
+    <h1>@ViewData["myString"] @ViewBag.user</h1>
+    <div id="intro">
+    <p>This site allows me to experiment with ASP.Net, exploring both API usage and Identity services. 
+        Some areas of the site are restricted to logged in users only. to access these areas you will need to register.</p>
+        <p>I am currently working on improving my knowledge of CSS and Boostrap. Small changes to the sites design are likely.</p>
+    </div>
     <div id="API-Results" class="p-3">
-        <h1>@ViewData["myString"] @ViewBag.user</h1>
         <form asp-action="Index" id="numJokesForm">
             <div class="form-group" id="NumJokesSelect">
                 <label class="control-label">Number of jokes (2-10)</label>
-                <select name="numjokes" id="numjokes" class="form-control w-25">
+                <select name="numjokes" id="numjokes" class="form-control">
                     <option value=2>2</option>
                     <option value=3>3</option>
                     <option value=4>4</option>
