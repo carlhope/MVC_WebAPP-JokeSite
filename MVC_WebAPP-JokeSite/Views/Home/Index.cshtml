@@ -8,16 +8,21 @@
 <div class="text-center">
     <h1>@ViewData["myString"] @ViewBag.user</h1>
     </div>
-    <div class="container-fluid">
     <div class="row">
     <div id="intro" class="col-md-4">
-    <p>This site allows me to experiment with ASP.Net, exploring both API usage and Identity services. 
-        Some areas of the site are restricted to logged in users only. to access these areas you will need to register.</p>
-        <p>I am currently working on improving my knowledge of CSS and Boostrap. Small changes to the sites design are likely.</p>
-    </div>
+         <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vitae arcu rhoncus, sollicitudin metus non, pellentesque massa. Fusce nunc metus, rutrum non auctor dictum, aliquet eget turpis. Donec non pulvinar ligula, viverra mollis nisi. Cras pharetra maximus tristique. Sed elementum eros non velit cursus rhoncus. Donec eu tortor aliquam, euismod diam non, tincidunt elit. In hendrerit tincidunt consectetur. Aenean vitae eleifend orci. Pellentesque accumsan urna nec magna semper, nec sagittis nisl ornare. Duis euismod ante est. Curabitur rhoncus quam eget aliquam ultricies. Quisque scelerisque, ante a aliquet pretium, purus neque gravida massa, laoreet dapibus est odio non nisl. Maecenas nulla erat, sollicitudin a dolor id, tristique rhoncus neque.
+        </p>
+         <p> 
+            Duis suscipit malesuada accumsan. In convallis erat eu nunc consectetur sollicitudin. Ut lobortis elit quam, sed laoreet purus dapibus ac. In et orci leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis id iaculis sapien, ac maximus elit. Nam ut suscipit sem, vel feugiat elit. Nam tempor, orci eget consectetur placerat, nibh nunc fringilla sapien, quis imperdiet neque nisi scelerisque lorem. Aenean malesuada nisl sit amet dictum convallis. Quisque ac suscipit velit.
+        </p>
+         <p>
+            Praesent pretium consequat diam, sed venenatis odio cursus sed. Ut velit justo, eleifend non nulla non, commodo convallis erat. Proin dolor elit, dapibus eget sodales id, vehicula nec ipsum. Vestibulum et condimentum nisi. Duis pulvinar leo at leo accumsan, ut imperdiet nisi congue. Vestibulum et eros ullamcorper, bibendum tortor nec, tincidunt lectus. Quisque eget pulvinar est. Nam dapibus turpis sed lorem maximus venenatis. Proin aliquet commodo lectus.
+        </p>
+        </div>
     <div id="API-Results" class="col-md-8 text-center border border-dark">
-        <form asp-action="Index" id="numJokesForm">
-            <div class="form-group" id="NumJokesSelect">
+        <form asp-action="Index" id="numJokesForm" class="mb-3">
+            <div class="form-group" id="NumJokesSelect" style="width:200px; margin:auto;">
                 <label class="control-label">Number of jokes (2-10)</label>
                 <select name="numjokes" id="numjokes" class="form-control">
                     <option value=2>2</option>
@@ -66,7 +71,9 @@
         }
     </div>
     </div>
-    <div class="row mt-5">
+
+
+    <div class="row mt-5 bg-light">
         <div class="col-md-3">
             <img src="#" width="300px" height="300px" />
         </div>
@@ -98,8 +105,8 @@
         <p>
             In sit amet fermentum leo, ut facilisis purus. Nam at venenatis ipsum, et rutrum magna. Nunc tincidunt feugiat fermentum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum ante velit, finibus a nibh id, iaculis mollis orci. Integer sagittis efficitur tellus, a molestie elit sollicitudin viverra. Etiam consequat, turpis in tincidunt finibus, libero orci auctor mi, nec posuere libero nisl id lorem. Praesent mi diam, posuere vitae mauris vitae, faucibus pharetra libero. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam non diam augue. Praesent accumsan lectus at turpis convallis, nec egestas odio mollis. Nunc ut libero orci. Nulla ut elit ut justo gravida commodo at et sem.
         </p>
-            </div>
     </div>
+    
 
 
 

@@ -15,16 +15,17 @@ html {
 }
 
 body {
+    margin-left: 0;
+    padding-left:0;
   margin-bottom: 60px;
   background-color:aliceblue;
   color:black;
 }
-
-#NumJokesSelect{
-    width: 200px;
-    margin: auto;
+.body-content{
+    margin-left:0px;
+padding-left:0px;
 }
-header{
-  background-color: aliceblue;
- 
+
+header {
+    background-color: lightyellow;
 }
