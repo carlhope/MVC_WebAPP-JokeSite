@@ -7,12 +7,15 @@
 
 <div class="text-center">
     <h1>@ViewData["myString"] @ViewBag.user</h1>
-    <div id="intro">
+    </div>
+    <div class="container-fluid">
+    <div class="row">
+    <div id="intro" class="col-md-4">
     <p>This site allows me to experiment with ASP.Net, exploring both API usage and Identity services. 
         Some areas of the site are restricted to logged in users only. to access these areas you will need to register.</p>
         <p>I am currently working on improving my knowledge of CSS and Boostrap. Small changes to the sites design are likely.</p>
     </div>
-    <div id="API-Results" class="p-3">
+    <div id="API-Results" class="col-md text-center">
         <form asp-action="Index" id="numJokesForm">
             <div class="form-group" id="NumJokesSelect">
                 <label class="control-label">Number of jokes (2-10)</label>
@@ -62,7 +65,22 @@
 
         }
     </div>
-</div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-3 border border-success">
+            <img src="#" width="300px" height="300px" />
+        </div>
+        <div class="col-md-3 border border-primary">
+            <img src="#" width="300px" height="300px" />
+        </div>
+        <div class="col-md-3 border border-warning">
+            <img src="#" width="300px" height="300px" />
+        </div>
+        <div class="col-md-3 border border-white">
+            <img src="#" width="300px" height="300px" />
+        </div>
+    </div>
+    </div>
 
 
 
