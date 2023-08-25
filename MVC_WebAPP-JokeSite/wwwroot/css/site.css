@@ -20,17 +20,6 @@ body {
   color:black;
 }
 
-#API-Results {
-  margin-top: 20px;
-  background-color: slategray;
-  border-radius: 15px;
-  border-width:10px;
-  border-color: crimson;
-  border-style:double;
-  padding: 30px;
-  color: black;
-}
-
 #NumJokesSelect{
     width: 200px;
     margin: auto;
@@ -38,10 +27,4 @@ body {
 header{
   background-color: aliceblue;
  
-}
-#intro{
-    text-align:left;
-    margin-left: 30px;
-    margin-right: 30px;
-    margin-bottom: 60px;
 }
