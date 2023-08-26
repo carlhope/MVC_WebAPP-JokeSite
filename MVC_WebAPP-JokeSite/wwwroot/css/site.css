@@ -15,6 +15,7 @@ html {
 }
 
 body {
+  padding-top:100px;
   margin-bottom: 60px;
   background-color:aliceblue;
   color:black;
