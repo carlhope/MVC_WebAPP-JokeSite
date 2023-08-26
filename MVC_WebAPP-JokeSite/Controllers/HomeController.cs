@@ -18,7 +18,6 @@ using System.Security.Claims;
 
 namespace MVC_WebApp.Controllers
 {
-    //[AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -33,10 +32,7 @@ namespace MVC_WebApp.Controllers
             _logger = logger;
             _context = Context;
             _userStore = new UserStore<ApplicationUser>(_context);
-            _userManager = new UserManager<ApplicationUser>(_userStore, null, null, null, null, null, null, null, null);
-           
-
-            
+            _userManager = new UserManager<ApplicationUser>(_userStore, null, null, null, null, null, null, null, null);     
         }
         [AllowAnonymous]
         public async Task<IActionResult> IndexAsync(int numjokes)
@@ -45,10 +41,7 @@ namespace MVC_WebApp.Controllers
             if (this.User.Identity.Name!= null)
             {
                 ApplicationUser CurrentUser = await _userManager.GetUserAsync(User);
-                currentUserFName = CurrentUser.FirstName;
-                //await _userManager.SetPhoneNumberAsync(CurrentUser, "575-855-5355");
-                //await _userManager.UpdateAsync(CurrentUser);
-               
+                currentUserFName = CurrentUser.FirstName;   
             }
             ViewBag.User = currentUserFName;
             RootModel ReturnRoot = new RootModel();
