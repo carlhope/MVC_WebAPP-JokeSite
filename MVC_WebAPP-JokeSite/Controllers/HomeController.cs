@@ -72,7 +72,8 @@ namespace MVC_WebApp.Controllers
             return View();
         }
         [HttpPost]
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         public IActionResult postUserJokes(JokeModel newJoke)
         {
             newJoke.UserJoke = true;
@@ -81,7 +82,7 @@ namespace MVC_WebApp.Controllers
                 _context.JokeModel.Add(newJoke);
                 _context.SaveChanges();
             }
-            
+
             return View("UserJokes",newJoke);
 
         }

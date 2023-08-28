@@ -3,18 +3,4 @@
 
 // Write your JavaScript code.
 
-        $("#selectjoketype").change(function () {
-            if (this.value == "single") {
-                $("#oneliner").css("display", "block");
-                $("#twopartsetup").css("display", "none");
-                $("#twopartdelivery").css("display", "none");
-                $("#twopartsetupinput").val("");
-                $("#twopartdeliveryinput").val("");
-            }
-            else {
-                $("#oneliner").css("display", "none");
-                $("#twopartsetup").css("display", "block");
-                $("#twopartdelivery").css("display", "block");
-                $("#onelinerinput").val("");
-            }
-        });
+       
