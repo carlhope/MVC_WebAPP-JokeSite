@@ -82,7 +82,9 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script> $("#selectjoketype").change(function () {
+    <script> 
+        //update page depending on joke type
+        $("#selectjoketype").change(function () {
             if (this.value == "single") {
                 $("#oneliner").css("display", "block");
                 $("#twopartsetup").css("display", "none");
@@ -97,5 +99,8 @@
                 $("#onelinerinput").val("");
             }
         });
+
+        //use ajax to post joke to database
+        
     </script>
 }
