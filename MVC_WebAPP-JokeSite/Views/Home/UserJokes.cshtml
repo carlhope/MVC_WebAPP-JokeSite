@@ -62,7 +62,8 @@
     </div>
 </div>
 <div id="display_user_joke">
-    <h1 id="userCreatedJokes">Joke created by user</h1>
+    <h1 id="userCreatedJokes">Jokes created by user(lost from page if page refreshed)</h1>
+    <!--
     @{
         if (Model != null)
         {
@@ -74,6 +75,7 @@
     <p>@UserJoke.setup</p>
     <p>@UserJoke.joke</p>
     <p>@UserJoke.delivery</p>
+    -->
 </div>
 
 <div>
@@ -100,7 +102,7 @@
             }
         });
 
-        //use ajax to post joke and return joke as an alert
+        //use ajax to post joke and display returned joke on page
 $("form").submit(function (e) {
             e.preventDefault();
             var joke = {
@@ -116,12 +118,21 @@ $("form").submit(function (e) {
                 success: function (data) {
                     var joke = JSON.parse(data);
                     if(joke.type == "single") {
-                        alert(joke.joke);
-                         $("<div><p>"+joke.joke+"</p></br></div>").insertAfter("#userCreatedJokes");
+                        //alert(joke.joke);
+
+                        $(`<div class='border-bottom border-primary'><p>`
+                        + joke.joke
+                        +`</p></br></div>`)
+                        .insertAfter("#userCreatedJokes");
+                           
 
                     }
                     else {
-                        alert(joke.setup + "\n" + joke.delivery);
+                        //alert(joke.setup + "\n" + joke.delivery);
+                        $(`<div class='border-bottom border-primary'><p>Setup: `
+                            + joke.setup + `</p><p> Punchline: `
+                            + joke.delivery + `</p></br></div>`)
+                            .insertAfter("#userCreatedJokes");
                     }
                     
                    

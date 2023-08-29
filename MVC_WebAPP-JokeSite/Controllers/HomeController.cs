@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 
 namespace MVC_WebApp.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
