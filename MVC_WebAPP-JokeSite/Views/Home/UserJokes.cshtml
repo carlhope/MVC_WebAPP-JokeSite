@@ -25,7 +25,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="postUserJokes">
+        <form>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="type" class="control-label"></label>
@@ -62,11 +62,11 @@
     </div>
 </div>
 <div id="display_user_joke">
-    <h1>Joke created by user</h1>
+    <h1 id="userCreatedJokes">Joke created by user</h1>
     @{
         if (Model != null)
         {
-                <p>This joke is now included in database. <a href="/home/outputdb">View all jokes</a></p>
+                            <p>This joke is now included in database. <a href="/home/outputdb">View all jokes</a></p>
 
             
         }
@@ -100,7 +100,38 @@
             }
         });
 
-        //use ajax to post joke to database
+        //use ajax to post joke and return joke as an alert
+$("form").submit(function (e) {
+            e.preventDefault();
+            var joke = {
+                type: $("#selectjoketype").val(),
+                setup: $("#twopartsetupinput").val(),
+                joke: $("#onelinerinput").val(),
+                delivery: $("#twopartdeliveryinput").val()
+            };
+            $.ajax({
+                type: "POST",
+                url: "/home/postuserjokesJSON",
+                data: joke,
+                success: function (data) {
+                    var joke = JSON.parse(data);
+                    if(joke.type == "single") {
+                        alert(joke.joke);
+                         $("<div><p>"+joke.joke+"</p></br></div>").insertAfter("#userCreatedJokes");
+
+                    }
+                    else {
+                        alert(joke.setup + "\n" + joke.delivery);
+                    }
+                    
+                   
+                 
+                },
+                error: function (data) {
+                    alert("error");
+                }
+            });
+        });
         
     </script>
 }

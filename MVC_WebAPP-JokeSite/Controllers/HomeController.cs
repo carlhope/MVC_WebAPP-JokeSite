@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Hosting.Builder;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SQLitePCL;
 using System.Security.Claims;
+using Newtonsoft.Json;
 
 namespace MVC_WebApp.Controllers
 {
@@ -84,6 +85,22 @@ namespace MVC_WebApp.Controllers
             }
 
             return View("UserJokes",newJoke);
+
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult postUserJokesJSON(JokeModel newJoke)
+        {
+            newJoke.UserJoke = true;
+            using (_context)
+            {
+                _context.JokeModel.Add(newJoke);
+                _context.SaveChanges();
+            }
+   var result = JsonConvert.SerializeObject(newJoke);
+
+
+            return Json(result);
 
         }
         [HttpGet]
