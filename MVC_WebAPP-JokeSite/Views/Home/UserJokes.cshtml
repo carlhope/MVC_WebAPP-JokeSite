@@ -62,7 +62,7 @@
     </div>
 </div>
 <div id="display_user_joke">
-    <h1 id="userCreatedJokes">Jokes created by user <button id="clearjokes">Reset</button></h1>
+    <h1 id="userCreatedJokes">Jokes created by user <button id="clearjokes" type="button" class="btn btn-danger">Reset all user jokes,</br> including in database</button></h1>
     <!-- Jokes to be inserted by JavaScript-->
 </div>
 
@@ -74,7 +74,7 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script> 
-        //create array to store jokes
+        //create array to store jokes. use to store jokes in local storage
         var jokeList = [];
 
         //update page depending on joke type
@@ -179,6 +179,7 @@ $("form").submit(function (e) {
             var jokeListJSON = JSON.stringify(jokeList);
             localStorage.setItem("jokeList", jokeListJSON);
             $("#userCreatedJokes").nextAll().remove();
+            window.location.href = '@Url.Action("resetUserJokes", "Home")'
         });
         
     </script>

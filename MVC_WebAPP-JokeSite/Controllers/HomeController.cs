@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SQLitePCL;
 using System.Security.Claims;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace MVC_WebApp.Controllers
 {
@@ -36,7 +37,7 @@ namespace MVC_WebApp.Controllers
             _userStore = new UserStore<ApplicationUser>(_context);
             _userManager = new UserManager<ApplicationUser>(_userStore, null, null, null, null, null, null, null, null);     
         }
-        [AllowAnonymous]
+        
         public async Task<IActionResult> IndexAsync(int numjokes)
         {
             string currentUserFName = "";
@@ -67,27 +68,13 @@ namespace MVC_WebApp.Controllers
 
             return View(ReturnRoot);
         }
-        [AllowAnonymous]
+        
         public IActionResult UserJokes(JokeModel joke)
         {
 
             return View();
         }
-        [HttpPost]
-        //[Authorize]
-        [AllowAnonymous]
-        public IActionResult postUserJokes(JokeModel newJoke)
-        {
-            newJoke.UserJoke = true;
-            using (_context)
-            {
-                _context.JokeModel.Add(newJoke);
-                _context.SaveChanges();
-            }
-
-            return View("UserJokes",newJoke);
-
-        }
+      
         [HttpPost]
         [AllowAnonymous]
         public JsonResult postUserJokesJSON(JokeModel newJoke)
@@ -104,30 +91,25 @@ namespace MVC_WebApp.Controllers
             return Json(result);
 
         }
-        [HttpGet]
-        [AllowAnonymous]
+       
+       
         public IActionResult OutputDB()
         {
             RootModel root = new RootModel();
             using (_context)
             {
-
-                //root.JokesList = _context.JokeModel.OrderByDescending(j => j.userJoke).ToList();
-               
-                var jokesLists = from j in _context.JokeModel
+                  var jokesLists = from j in _context.JokeModel
                                  orderby j.UserJoke descending
                                  select j;
 
                    root.JokesList = jokesLists.ToList();
-
-            
             }
             return View(root);
 
 
         }
-        [HttpPost]
-        [Authorize]
+    
+       
         public IActionResult resetOutputDB()
         {
             RootModel Root = new RootModel();
@@ -140,7 +122,24 @@ namespace MVC_WebApp.Controllers
 
             return View("OutputDB");
         }
-        [AllowAnonymous]
+
+    
+        public IActionResult resetUserJokes()
+        {
+            RootModel Root = new RootModel();
+            using (_context)
+            {
+                var userJokes = from j in _context.JokeModel.ToList()
+                                 where j.UserJoke == true
+                                 select j;
+                _context.JokeModel.RemoveRange(userJokes);
+                _context.SaveChanges();
+            }
+
+            return View("UserJokes");
+        }
+       
+     
         public IActionResult Privacy()
         {
             return View();
