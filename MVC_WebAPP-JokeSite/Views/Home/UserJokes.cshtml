@@ -25,7 +25,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="postUserJokes">
+        <form>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="type" class="control-label"></label>
@@ -62,40 +62,125 @@
     </div>
 </div>
 <div id="display_user_joke">
-    <h1>Joke created by user</h1>
-    @{
-        if (Model != null)
-        {
-                <p>This joke is now included in database. <a href="/home/outputdb">View all jokes</a></p>
-
-            
-        }
-    }
-    <p>@UserJoke.setup</p>
-    <p>@UserJoke.joke</p>
-    <p>@UserJoke.delivery</p>
+    <h1 id="userCreatedJokes">Jokes created by user <button id="clearjokes" type="button" class="btn btn-danger">Reset all user jokes,</br> including in database</button></h1>
+    <!-- Jokes to be inserted by JavaScript-->
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <p><a href="/home/outputdb">View all jokes</a></p>
+    <a asp-action="Index">Back to Home</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script> $("#selectjoketype").change(function () {
+    <script> 
+        //create array to store jokes. use to store jokes in local storage
+        var jokeList = [];
+
+        //update page depending on joke type
+        $("#selectjoketype").change(function () {
             if (this.value == "single") {
                 $("#oneliner").css("display", "block");
                 $("#twopartsetup").css("display", "none");
                 $("#twopartdelivery").css("display", "none");
                 $("#twopartsetupinput").val("");
                 $("#twopartdeliveryinput").val("");
+                $("#onelinerinput").required = true;
+                $("#twopartsetupinput").required = false;
+                $("#twopartdeliveryinput").required = false;
             }
             else {
                 $("#oneliner").css("display", "none");
                 $("#twopartsetup").css("display", "block");
                 $("#twopartdelivery").css("display", "block");
                 $("#onelinerinput").val("");
+                $("#onelinerinput").required = false;
+                $("#twopartsetupinput").required = true;
+                $("#twopartdeliveryinput").required = true;
             }
         });
+
+        //post joke and display returned joke on page
+$("form").submit(function (e) {
+            e.preventDefault();
+            var joke = {
+                type: $("#selectjoketype").val(),
+                setup: $("#twopartsetupinput").val(),
+                joke: $("#onelinerinput").val(),
+                delivery: $("#twopartdeliveryinput").val()
+            };
+            if(joke.type=="single" && joke.joke=="" )
+            {
+                alert("please enter a joke");
+                return;
+            }
+            if (joke.type == "two-part" && (joke.setup == "" || joke.delivery == "")) {
+                alert("please enter a setup and delivery");
+                return;
+            }
+            
+            $.ajax({
+                type: "POST",
+                url: "/home/postuserjokesJSON",
+                data: joke,
+                success: function (data) {
+                    var joke = JSON.parse(data);
+                    if(joke.type == "single") {
+                        $(`<div class='border-bottom border-primary'><p>`
+                        + joke.joke
+                        +`</p></br></div>`)
+                        .insertAfter("#userCreatedJokes");
+                        jokeList.push(joke);
+
+                    }
+                    else {
+                        $(`<div class='border-bottom border-primary'><p>Setup: `
+                            + joke.setup + `</p><p> Punchline: `
+                            + joke.delivery + `</p></br></div>`)
+                            .insertAfter("#userCreatedJokes");
+                             jokeList.push(joke);
+                    }
+                    var jokeListJSON = JSON.stringify(jokeList);
+                    localStorage.setItem("jokeList", jokeListJSON);
+                    
+                   
+                 
+                },
+                error: function (data) {
+                    alert("error");
+                }
+            });
+        });
+        // retrieve jokeList from local storage and parse to javascript array
+        $(document).ready(function () {
+            var jokeListJSON = localStorage.getItem("jokeList");
+            if (jokeListJSON != null) {
+                jokeList = JSON.parse(jokeListJSON);
+                for (var i = 0; i < jokeList.length; i++) {
+                    if (jokeList[i].type == "single") {
+                        $(`<div class='border-bottom border-primary'><p>`
+                            + jokeList[i].joke
+                            + `</p></br></div>`)
+                            .insertAfter("#userCreatedJokes");
+                    }
+                    else {
+                        $(`<div class='border-bottom border-primary'><p>Setup: `
+                            + jokeList[i].setup + `</p><p> Punchline: `
+                            + jokeList[i].delivery + `</p></br></div>`)
+                            .insertAfter("#userCreatedJokes");
+                    }
+                }
+            }
+        });
+
+        //remove all values from jokeList, stringify and store in local storage as jokeList
+           $("#clearjokes").click(function () {
+            jokeList = [];
+            var jokeListJSON = JSON.stringify(jokeList);
+            localStorage.setItem("jokeList", jokeListJSON);
+            $("#userCreatedJokes").nextAll().remove();
+            window.location.href = '@Url.Action("resetUserJokes", "Home")'
+        });
+        
     </script>
 }
