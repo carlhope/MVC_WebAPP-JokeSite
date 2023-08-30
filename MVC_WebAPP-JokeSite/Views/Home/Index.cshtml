@@ -22,7 +22,7 @@
             Praesent pretium consequat diam, sed venenatis odio cursus sed. Ut velit justo, eleifend non nulla non, commodo convallis erat. Proin dolor elit, dapibus eget sodales id, vehicula nec ipsum. Vestibulum et condimentum nisi. Duis pulvinar leo at leo accumsan, ut imperdiet nisi congue. Vestibulum et eros ullamcorper, bibendum tortor nec, tincidunt lectus. Quisque eget pulvinar est. Nam dapibus turpis sed lorem maximus venenatis. Proin aliquet commodo lectus.
         </p>
         </div>
-    <div id="API-Results" class="col-md-8 text-center border border-dark">
+    <div id="API-Results" class="col-md-8 text-center border border-dark bg-white">
         <form asp-action="Index" id="numJokesForm" class="mb-3">
             <div class="form-group" id="NumJokesSelect" style="width:200px; margin:auto;">
                 <label class="control-label">Number of jokes (2-10)</label>
@@ -49,7 +49,6 @@
             {
                 jokeCount++;
                 <h5 id="jokenumber">Joke @jokeCount</h5>
-                <p>@joke.type</p>
 
 
                 if (joke.type == "single")
@@ -64,8 +63,8 @@
                 {
 
 
-                    <p class="jokes">@joke.setup</p>
-                    <p class="jokes">@joke.delivery</p>
+                    <p class="jokes"><strong>Setup: </strong>@joke.setup</p>
+                    <p class="jokes"><strong>Punchline: </strong>@joke.delivery</p>
 
                 }
             }
