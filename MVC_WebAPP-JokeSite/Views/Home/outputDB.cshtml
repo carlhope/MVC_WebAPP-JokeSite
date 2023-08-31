@@ -9,40 +9,42 @@
     <h1>Every joke currently stored in the database</h1>
     <form asp-action="resetOutputDB"> <button type="submit" class="btn btn-danger" >Reset</button></form>
     @{
-        <p>User defined jokes displayed first, followed by API jokes</p>
+            <p>User defined jokes displayed first, followed by API jokes</p>
         int jokeCount = 0;
         if (Model==null)
         {
-            <p>No jokes found</p>
+                <p>No jokes found</p>
         }
         else{
             foreach(JokeModel joke in Model)
             {
                 jokeCount++;
-                <p>Joke @jokeCount</p>
+                    <p>Joke @jokeCount</p>
                 if (joke.UserJoke == true)
 
                 {
-                    <h6>User supplied Joke</h6>
+                        <h6>User supplied Joke</h6>
                 }
                 if (joke.type == "single")
             {
-                <p>@joke.joke</p>
+                    <p>@joke.joke</p>
             }
             else
             {
-                <p>@joke.setup</p>
-                <p>@joke.delivery</p>
+                    <p>@joke.setup</p>
+                    <p>@joke.delivery</p>
             }
-            <br/>
+                <br/>
 
         }
         }
     }
 </div>
 
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+@section Scripts{
+<script>
+        $(document).ready(function () {
+            alert("All the jokes");
+        });
+    </script>
 }
