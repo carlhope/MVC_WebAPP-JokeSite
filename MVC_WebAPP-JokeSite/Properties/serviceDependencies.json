@@ -3,6 +3,10 @@
     "mssql1": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:MVC_WebAPP_JokeSiteContextConnection"
+    },
+    "cosmosdb1": {
+      "type": "cosmosdb",
+      "connectionId": "ConnectionStrings"
     }
   }
 }
