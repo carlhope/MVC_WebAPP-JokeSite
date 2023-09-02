@@ -9,7 +9,6 @@
     <h1>Every joke currently stored in the database</h1>
     <form asp-action="resetOutputDB"> <button type="submit" class="btn btn-danger" >Reset</button></form>
     @{
-            <p>User defined jokes displayed first, followed by API jokes</p>
         int jokeCount = 0;
         if (Model==null)
         {
@@ -20,11 +19,6 @@
             {
                 jokeCount++;
                     <p>Joke @jokeCount</p>
-                if (joke.UserJoke == true)
-
-                {
-                        <h6>User supplied Joke</h6>
-                }
                 if (joke.type == "single")
             {
                     <p>@joke.joke</p>
@@ -43,8 +37,6 @@
 
 @section Scripts{
 <script>
-        $(document).ready(function () {
-            alert("All the jokes");
-        });
+       
     </script>
 }
