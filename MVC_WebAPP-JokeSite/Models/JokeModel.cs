@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MVC_WebAPP_JokeSite.Areas.Identity.Data;
+using Newtonsoft.Json;
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -36,6 +37,8 @@ namespace MVC_WebApp.Models
         [Key]
             public int id { get; set; }
         public bool UserJoke { get; set; } = false;
+        public string? ApplicationUserId { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
             public FlagsModel? flags { get; set; }
          
 }
