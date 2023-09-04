@@ -94,11 +94,15 @@ namespace MVC_WebApp.Controllers
         }
         public IActionResult resetOutputDB()
         {
-            RootModel Root = new RootModel();
+            //RootModel Root = new RootModel();
             using (_context)
             {
-                Root.JokesList = _context.JokeModel.ToList();
-                _context.JokeModel.RemoveRange(Root.JokesList);
+                var currentUser = _userManager.GetUserAsync(User).Result;
+                var jokesLists = from j in _context.JokeModel
+                                 where j.ApplicationUser.Id == currentUser.Id
+                                 select j;
+                //Root.JokesList = _context.JokeModel.ToList();
+                _context.JokeModel.RemoveRange(jokesLists);
                 _context.SaveChanges();
             }
 

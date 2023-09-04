@@ -6,7 +6,7 @@
     ViewData["Title"] = "outputs results";
 }
 <div class="text-center">
-    <h1>Every joke currently stored in the database</h1>
+    <h1>All jokes created by current user, currently stored in database</h1>
     <form asp-action="resetOutputDB"> <button type="submit" class="btn btn-danger" >Reset</button></form>
     @{
         int jokeCount = 0;
@@ -30,6 +30,10 @@
             }
                 <br/>
 
+        }
+        if(jokeCount == 0)
+        {
+                <p>No jokes found</p>
         }
         }
     }
