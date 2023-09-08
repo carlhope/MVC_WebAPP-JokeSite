@@ -39,6 +39,7 @@ namespace MVC_WebApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> IndexAsync(int numjokes)
         {
+            ViewData["pageDescription"] = "This is the homepage, welcome";
             string currentUserFName = "";
             if (this.User.Identity.Name!= null)
             {
