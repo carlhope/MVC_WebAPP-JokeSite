@@ -4,28 +4,16 @@
 
 @{
     ViewData["Title"] = "UserJokes";
-    JokeModel UserJoke = new JokeModel();
-    if (Model != null)
-    {
-        UserJoke = Model;
-    }
-    else
-    {
-        UserJoke.type = "single";
-        UserJoke.setup = "";
-        UserJoke.joke = "No joke";
-        UserJoke.delivery = "";
-    }
 }
 
 
-<h1>UserJokes</h1>
+<h1>Create your own jokes</h1>
 
-<h4>JokeModel</h4>
+<h4>This site is for practice only. Jokes may be deleted</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form>
+        <form asp-action="PostUserJoke">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="type" class="control-label"></label>
@@ -62,20 +50,24 @@
     </div>
 </div>
 <div id="display_user_joke">
-    <h1 id="userCreatedJokes">Jokes created by user <button id="clearjokes" type="button" class="btn btn-danger">Reset all user jokes,</br> including in database</button></h1>
-    <!-- Jokes to be inserted by JavaScript-->
-</div>
-
-<div>
-    <p><a href="/home/outputdb">View all jokes</a></p>
-    <a asp-action="Index">Back to Home</a>
+    <h4 id="userCreatedJokes">Joke successfully created <a href="/home/outputdb">View all jokes</a> </h4>
+    @{
+        if (Model != null)
+        {
+            if(Model.type == "single"){
+                <p>@Model.joke</p>
+            }
+            else{
+                <p>@Model.setup</p>
+                <p>@Model.delivery</p>
+            }
+        }
+        }
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script> 
-        //create array to store jokes. use to store jokes in local storage
-        var jokeList = [];
 
         //update page depending on joke type
         $("#selectjoketype").change(function () {
@@ -98,89 +90,6 @@
                 $("#twopartsetupinput").required = true;
                 $("#twopartdeliveryinput").required = true;
             }
-        });
-
-        //post joke and display returned joke on page
-$("form").submit(function (e) {
-            e.preventDefault();
-            var joke = {
-                type: $("#selectjoketype").val(),
-                setup: $("#twopartsetupinput").val(),
-                joke: $("#onelinerinput").val(),
-                delivery: $("#twopartdeliveryinput").val()
-            };
-            if(joke.type=="single" && joke.joke=="" )
-            {
-                alert("please enter a joke");
-                return;
-            }
-            if (joke.type == "two-part" && (joke.setup == "" || joke.delivery == "")) {
-                alert("please enter a setup and delivery");
-                return;
-            }
-            
-            $.ajax({
-                type: "POST",
-                url: "/home/postuserjokesJSON",
-                data: joke,
-                success: function (data) {
-                    var joke = JSON.parse(data);
-                    if(joke.type == "single") {
-                        $(`<div class='border-bottom border-primary'><p>`
-                        + joke.joke
-                        +`</p></br></div>`)
-                        .insertAfter("#userCreatedJokes");
-                        jokeList.push(joke);
-
-                    }
-                    else {
-                        $(`<div class='border-bottom border-primary'><p>Setup: `
-                            + joke.setup + `</p><p> Punchline: `
-                            + joke.delivery + `</p></br></div>`)
-                            .insertAfter("#userCreatedJokes");
-                             jokeList.push(joke);
-                    }
-                    var jokeListJSON = JSON.stringify(jokeList);
-                    localStorage.setItem("jokeList", jokeListJSON);
-                    
-                   
-                 
-                },
-                error: function (data) {
-                    alert("error");
-                }
-            });
-        });
-        // retrieve jokeList from local storage and parse to javascript array
-        $(document).ready(function () {
-            var jokeListJSON = localStorage.getItem("jokeList");
-            if (jokeListJSON != null) {
-                jokeList = JSON.parse(jokeListJSON);
-                for (var i = 0; i < jokeList.length; i++) {
-                    if (jokeList[i].type == "single") {
-                        $(`<div class='border-bottom border-primary'><p>`
-                            + jokeList[i].joke
-                            + `</p></br></div>`)
-                            .insertAfter("#userCreatedJokes");
-                    }
-                    else {
-                        $(`<div class='border-bottom border-primary'><p>Setup: `
-                            + jokeList[i].setup + `</p><p> Punchline: `
-                            + jokeList[i].delivery + `</p></br></div>`)
-                            .insertAfter("#userCreatedJokes");
-                    }
-                }
-            }
-        });
-
-        //remove all values from jokeList, stringify and store in local storage as jokeList
-           $("#clearjokes").click(function () {
-            jokeList = [];
-            var jokeListJSON = JSON.stringify(jokeList);
-            localStorage.setItem("jokeList", jokeListJSON);
-            $("#userCreatedJokes").nextAll().remove();
-            window.location.href = '@Url.Action("resetUserJokes", "Home")'
-        });
-        
+        });  
     </script>
 }

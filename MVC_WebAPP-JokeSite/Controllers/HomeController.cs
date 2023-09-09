@@ -20,7 +20,6 @@ using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace MVC_WebApp.Controllers
 {
-    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -37,7 +36,7 @@ namespace MVC_WebApp.Controllers
             _userStore = new UserStore<ApplicationUser>(_context);
             _userManager = new UserManager<ApplicationUser>(_userStore, null, null, null, null, null, null, null, null);     
         }
-        
+        [AllowAnonymous]
         public async Task<IActionResult> IndexAsync(int numjokes)
         {
             string currentUserFName = "";
@@ -68,37 +67,22 @@ namespace MVC_WebApp.Controllers
 
             return View(ReturnRoot);
         }
-        
+        [Authorize]
         public IActionResult UserJokes(JokeModel joke)
         {
 
             return View();
-        }
-      
-        [HttpPost]
-        [AllowAnonymous]
-        public JsonResult postUserJokesJSON(JokeModel newJoke)
-        {
-            newJoke.UserJoke = true;
-            using (_context)
-            {
-                _context.JokeModel.Add(newJoke);
-                _context.SaveChanges();
-            }
-   var result = JsonConvert.SerializeObject(newJoke);
-
-
-            return Json(result);
-
         }
        
        
         public IActionResult OutputDB()
         {
             RootModel root = new RootModel();
+            var currentUser = _userManager.GetUserAsync(User).Result;
             using (_context)
             {
-                  var jokesLists = from j in _context.JokeModel
+                var jokesLists = from j in _context.JokeModel
+                                 where j.ApplicationUser.Id == currentUser.Id
                                  orderby j.UserJoke descending
                                  select j;
 
@@ -108,22 +92,48 @@ namespace MVC_WebApp.Controllers
 
 
         }
-    
-       
         public IActionResult resetOutputDB()
         {
-            RootModel Root = new RootModel();
+            //RootModel Root = new RootModel();
             using (_context)
             {
-                Root.JokesList = _context.JokeModel.ToList();
-                _context.JokeModel.RemoveRange(Root.JokesList);
+                var currentUser = _userManager.GetUserAsync(User).Result;
+                var jokesLists = from j in _context.JokeModel
+                                 where j.ApplicationUser.Id == currentUser.Id
+                                 select j;
+                //Root.JokesList = _context.JokeModel.ToList();
+                _context.JokeModel.RemoveRange(jokesLists);
                 _context.SaveChanges();
             }
 
             return View("OutputDB");
         }
+        [HttpPost]
+        public IActionResult PostUserJoke(JokeModel newJoke)
+        {
+            ApplicationUser currentUser = _userManager.GetUserAsync(User).Result;
+            newJoke.ApplicationUser = currentUser;
+            using (_context)
+            {
+                var jokesLists = from j in _context.JokeModel
+                                 where j.ApplicationUser == currentUser
+                                 orderby j.UserJoke descending
+                                 select j;
+                if (jokesLists.Count() > 9)
+                {
+                    return View("UserJokes");
+                }
+                else
+                {
 
-    
+
+                    _context.JokeModel.Add(newJoke);
+                    _context.SaveChanges();
+                }
+
+            }
+            return View("UserJokes", newJoke);
+        }
         public IActionResult resetUserJokes()
         {
             RootModel Root = new RootModel();
@@ -138,8 +148,8 @@ namespace MVC_WebApp.Controllers
 
             return View("UserJokes");
         }
-       
-     
+
+        [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();
@@ -150,5 +160,6 @@ namespace MVC_WebApp.Controllers
         {
             return View(new ErrorViewModel { Id = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        
     }
 }
