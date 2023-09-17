@@ -9,20 +9,34 @@
     <h1>@ViewData["myString"] @ViewBag.user</h1>
     </div>
     <div class="row">
-    <div id="intro" class="col-md-4">
-        <h3>Random Text</h3>
-        <p><strong>Random content added to allow me to practice</strong></p>
-         <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vitae arcu rhoncus, sollicitudin metus non, pellentesque massa. Fusce nunc metus, rutrum non auctor dictum, aliquet eget turpis. Donec non pulvinar ligula, viverra mollis nisi. Cras pharetra maximus tristique. Sed elementum eros non velit cursus rhoncus. Donec eu tortor aliquam, euismod diam non, tincidunt elit. In hendrerit tincidunt consectetur. Aenean vitae eleifend orci. Pellentesque accumsan urna nec magna semper, nec sagittis nisl ornare. Duis euismod ante est. Curabitur rhoncus quam eget aliquam ultricies. Quisque scelerisque, ante a aliquet pretium, purus neque gravida massa, laoreet dapibus est odio non nisl. Maecenas nulla erat, sollicitudin a dolor id, tristique rhoncus neque.
-        </p>
-         <p> 
-            Duis suscipit malesuada accumsan. In convallis erat eu nunc consectetur sollicitudin. Ut lobortis elit quam, sed laoreet purus dapibus ac. In et orci leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis id iaculis sapien, ac maximus elit. Nam ut suscipit sem, vel feugiat elit. Nam tempor, orci eget consectetur placerat, nibh nunc fringilla sapien, quis imperdiet neque nisi scelerisque lorem. Aenean malesuada nisl sit amet dictum convallis. Quisque ac suscipit velit.
-        </p>
-         <p>
-            Praesent pretium consequat diam, sed venenatis odio cursus sed. Ut velit justo, eleifend non nulla non, commodo convallis erat. Proin dolor elit, dapibus eget sodales id, vehicula nec ipsum. Vestibulum et condimentum nisi. Duis pulvinar leo at leo accumsan, ut imperdiet nisi congue. Vestibulum et eros ullamcorper, bibendum tortor nec, tincidunt lectus. Quisque eget pulvinar est. Nam dapibus turpis sed lorem maximus venenatis. Proin aliquet commodo lectus.
-        </p>
+    <div id="intro" class="col-md" style="padding-right:25px">
+        <div class="text-center">
+            <h1>Tic Tac Toe</h1>
+            <h3>Player 1: X        Player 2: O</h3>
+            <div id="game">
+                <div id="board">
+                    <div class="row border border-primary board-rows" id="testthis" style="height:100px">
+                        <div class="col-4 square border border-primary" id="0" onclick="clicked(0)"></div>
+                        <div class="col-4 square border border-primary" id="1" onclick="clicked(1)"></div>
+                        <div class="col-4 square border border-primary" id="2" onclick="clicked(2)"></div>
+                    </div>
+                    <div class="row border border-primary board-rows" style="height:100px">
+                        <div class="col-4 square border border-primary" id="3" onclick="clicked(3)"></div>
+                        <div class="col-4 square border border-primary" id="4" onclick="clicked(4)"></div>
+                        <div class="col-4 square border border-primary" id="5" onclick="clicked(5)"></div>
+                    </div>
+                    <div class="row border border-primary board-rows" style="height:100px">
+                        <div class="col-4 square border border-primary" id="6" onclick="clicked(6)"></div>
+                        <div class="col-4 square border border-primary" id="7" onclick="clicked(7)"></div>
+                        <div class="col-4 square border border-primary" id="8" onclick="clicked(8)"></div>
+                    </div>
+                </div>
+                <div id="message"></div>
+                <button id="reset" onclick="reset()">Reset</button>
+            </div>
         </div>
-    <div id="API-Results" class="col-md-8 text-center border border-dark bg-white">
+    </div>
+    <div id="API-Results" class="col-md text-center border border-dark bg-white">
         <form asp-action="Index" id="numJokesForm" class="mb-3">
             <div class="form-group" id="NumJokesSelect" style="width:200px; margin:auto;">
                 <label class="control-label">Number of jokes (2-10)</label>
@@ -73,21 +87,6 @@
     </div>
     </div>
 
-
-    <div class="row mt-5">
-        <div class="col-md-3 g-0">
-        <img class="img-fluid w-100" src="/Images/door.jpg" />
-        </div>
-        <div class="col-md-3 g-0">
-            <img class="img-fluid w-100" src="/images/door.jpg"/>
-        </div>
-        <div class="col-md-3 g-0">
-        <img class="img-fluid w-100" src="/images/door.jpg" />
-        </div>
-        <div class="col-md-3 g-0">
-        <img class="img-fluid w-100" src="/images/door.jpg" />
-        </div>
-    </div>
     <div id="random-paragraphs" class="m-5">
         <h3 class="text-center">Randomly generated paragraphs</h3>
 
@@ -115,7 +114,70 @@
         <meta name="description" content="" />
         <meta name="keywords" content="" />
     }
-    
+@section Scripts{
+    <script>
+
+
+        var player = 1;
+        var moves = 0;
+        var board = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        var win = false;
+        var winCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [6, 4, 2]];
+        //play the game
+        function clicked(id) {
+
+            if (win) {
+                return;
+            }
+            if (board[id] === 0) {
+                if (player === 1) {
+                    document.getElementById(id).innerHTML = "X";
+                    board[id] = 1;
+                    player = 2;
+                } else {
+                    document.getElementById(id).innerHTML = "O";
+                    board[id] = 2;
+                    player = 1;
+                }
+                moves++;
+                checkWin();
+                if (win) {
+                    return;
+                }
+
+            }
+        }
+        //check for a winner
+        function checkWin() {
+            for (let i = 0; i < winCombos.length; i++) {
+                if (board[winCombos[i][0]] === board[winCombos[i][1]] && board[winCombos[i][1]] === board[winCombos[i][2]] && board[winCombos[i][0]] !== 0) {
+                    win = true;
+                    document.getElementById("message").innerHTML = "Player " + board[winCombos[i][0]] + " wins!";
+                }
+            }
+            if (moves === 9 && !win) {
+                document.getElementById("message").innerHTML = "It's a tie!";
+            }
+        }
+        //reset the game
+        function reset() {
+            player = 1;
+            moves = 0;
+            board = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            win = false;
+            document.getElementById("message").innerHTML = "";
+            for (let i = 0; i < 10; i++) {
+                document.getElementById(i).innerHTML = "";
+            }
+
+        }
+
+
+    </script>
+    }
+
 
 
 

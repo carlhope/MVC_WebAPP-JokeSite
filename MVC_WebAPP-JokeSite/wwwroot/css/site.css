@@ -23,4 +23,14 @@ body {
 header {
     background-color: lightyellow;
 }
+#board {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 48px;
+    font-weight: bold;
+    background-color: lightgoldenrodyellow;
+}
 
+.board-rows {
+    background-color: lightgray;
+}
