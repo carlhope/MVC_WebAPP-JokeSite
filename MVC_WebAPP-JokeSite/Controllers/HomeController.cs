@@ -47,7 +47,7 @@ namespace MVC_WebApp.Controllers
             }
             ViewBag.User = currentUserFName;
             RootModel ReturnRoot = new RootModel();
-            ViewData["myString"] = "Welcome to my ASP.NET MVC Joke Site";
+            ViewData["myString"] = "Welcome to my .NET MVC Joke Site";
             if (numjokes < 2)
             { numjokes = 2; }//single joke is sent as object rather than array of objects. breaks when ienumerable<JokeModel>Jokes = null.
             //possible improvement: add method for numjokes=1 that expects single jokeModel object.
